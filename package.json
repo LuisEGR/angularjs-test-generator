@@ -1,0 +1,34 @@
+{
+  "name": "angularjs-test-generator",
+  "version": "1.0.0",
+  "description": "AngularJS test generator for Jasmine in ES6",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "bin": {
+    "gentest": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisEGR/angularjs-test-generator.git"
+  },
+  "keywords": [
+    "angularjs",
+    "test",
+    "generator",
+    "jasmine",
+    "component",
+    "unit"
+  ],
+  "author": "Luis E. Gonzalez R.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LuisEGR/angularjs-test-generator/issues"
+  },
+  "homepage": "https://github.com/LuisEGR/angularjs-test-generator#readme",
+  "dependencies": {
+    "eslint": "^4.15.0",
+    "minimist": "^1.2.0"
+  }
+}
