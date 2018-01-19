@@ -50,10 +50,10 @@ This script requires you to have your project with this configuration:
 
 ### TODO
 
-[x] Components  
-[ ] Directives  
-[ ] Filters  
-[ ] Services  
+- [x] Components  
+- [ ] Directives  
+- [ ] Filters  
+- [ ] Services  
 
 
 If you have any problem with this script please open a new issue describing the problem and how to replicate it.
