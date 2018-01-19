@@ -2,7 +2,7 @@
 'use strict';
 // AngularJS Jasmine Test Generator
 // Author: Luis E. González R. (@LuisEGR)
-// Version: 0.0.2
+// Version: 0.0.3
 let fs = require('fs');
 // let process = require('process');
 let minimist = require('minimist');
@@ -54,19 +54,21 @@ Object.keys(_bindings).forEach((binding) => {
 });
 
 let specContent = [];
-if (!parser.hasFile('fixtures.js')) {
-  let f_fixtures = fs.createWriteStream('fixtures.js');
-  Object.keys(_bindings).forEach((binding) => {
-    f_fixtures.write(`export const ${binding} = {};\n`);
-  });
+if(Object.keys(_bindings).length){
+  if (!parser.hasFile('fixtures.js')) {
+    let f_fixtures = fs.createWriteStream('fixtures.js');
+    Object.keys(_bindings).forEach((binding) => {
+      f_fixtures.write(`export const ${binding} = {};\n`);
+    });
+  }
+  specContent.push(`import * as testData from './fixtures.js';`);
 }
-specContent.push(`import * as testData from './fixtures.js';`);
 if (parser.hasFile('view.html')) {
   specContent.push(`import templateURL from './view.html';`);
   specContent.push(functionGetSync);
   specContent.push(``);
 }
-specContent.push(`describe('dentro del componente ${_name}', () => {`);
+specContent.push(`describe('Dentro del componente ${_name}', () => {`);
 specContent.push(`let element;`);
 specContent.push(`let ctrl;`);
 specContent.push(`let $scope;`);

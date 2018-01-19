@@ -78,6 +78,7 @@ class ParserAJS{
   
   getBindings() {
     let componentData;
+    console.log("Getting bindings...");
     if (!this.hasFile('component.js')) {
       return [];
     } else {
@@ -91,7 +92,7 @@ class ParserAJS{
       }
       let binds;
       binds = eval(`binds = { ${componentData.slice(fromPos, toPos)} }`);
-      return binds.bindings;
+      return binds.bindings || {};
     }
   };
   
@@ -123,7 +124,7 @@ class ParserAJS{
       return [];
     } else {
       controllerData = fs.readFileSync('controller.js', {encoding: 'utf-8'});
-      let funcs = controllerData.match(/vm.[a-zA-Z$ ]{2,}[=(]\s*(\(|f){1}/g);
+      let funcs = controllerData.match(/vm.[a-zA-Z$ ]{2,}[=(]\s*(\(|(fu)){1,}/g);
       if(!funcs || !funcs.length) return [];
       funcs = funcs.map((fun) => {
         return fun.substr(0, fun.length - 2).replace(/\s\=|(\()|(vm\.)/g, '');
