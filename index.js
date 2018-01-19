@@ -6,12 +6,12 @@
 const fs = require('fs');
 const readline = require('readline');
 const minimist = require('minimist');
-const CLIEngine = require('eslint').CLIEngine;
-let cli = new CLIEngine({
-  envs: ['env'],
-  fix: true,
-  useEslintrc: true,
-});
+// const CLIEngine = require('eslint').CLIEngine;
+// let cli = new CLIEngine({
+//   envs: ['env'],
+//   fix: true,
+//   useEslintrc: true,
+// });
 
 let ParserAJS = require('./parser');
 let parser = new ParserAJS({
@@ -143,18 +143,21 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+let fw = undefined;
+let replaceFile = false;
 
 let writeFile = () => {
   fw = fs.createWriteStream(destFile);
-  let ver = cli.executeOnText(res);
-  fw.write(ver.results[0].output);
+  // let ver = cli.executeOnText(res);
+  // console.log("Results:", JSON.stringify(ver));
+  // fw.write(ver.results[0].output);
+  console.log(res);
+  fw.write(res);
   console.log("Jasmine test created on: '"+destFile+"'");
   rl.close();
 }
 
 
-let fw = undefined;
-let replaceFile = false;
 if (!fs.existsSync(destFile)) {
   writeFile();
 } else {
