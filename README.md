@@ -29,14 +29,15 @@ cd myApp/components/my-component/
 gentest
 ```
 
-this will create the file ```component.spec.js```, and **if it already exists it will be replaced**.
+this will create the file ```component.spec.js```,  **if it already exists it will be replaced**.
 
 #### CLI Arguments
 
-argument | defualt | description
---- | --- | ---
-`-o` | `component.spec.js` | destination file
-
+argument | defualt | description | example
+--- | --- | --- | ---
+`-o` | `component.spec.js` | destination file | gentest -o spec/myout.spec.js
+  
+  
 ---
 ## Attention!
 
