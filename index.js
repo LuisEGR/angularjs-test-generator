@@ -144,6 +144,14 @@ const rl = readline.createInterface({
 });
 
 
+let writeFile = () => {
+  fw = fs.createWriteStream(destFile);
+  let ver = cli.executeOnText(res);
+  fw.write(ver.results[0].output);
+  console.log("Jasmine test created on: '"+destFile+"'");
+}
+
+
 let fw = undefined;
 let replaceFile = false;
 if (!fs.existsSync(destFile)) {
@@ -151,19 +159,13 @@ if (!fs.existsSync(destFile)) {
 } else {
   rl.question(`'${destFile}' already exists, would you like to replace it? Y/N `, (answer) => {
     replaceFile = /[YySs]/.test(answer);
+    rl.close();
     if(replaceFile){
       console.log(`${destFile} replaced!`);
       writeFile();
     }else{
       console.log('Run this command with -o option to set the output name');
     }
-    rl.close();
   });
 }
 
-let writeFile = () => {
-  fw = fs.createWriteStream(destFile);
-  let ver = cli.executeOnText(res);
-  fw.write(ver.results[0].output);
-  console.log("Jasmine test created on: '"+destFile+"'");
-}

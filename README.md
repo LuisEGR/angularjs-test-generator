@@ -14,7 +14,7 @@ cd angularjs-test-generator
 npm install -g
 ```
 
-Vía npm: **(not yet available)**
+Vía npm:
 ```shell 
 npm install -g angularjs-test-generator
 ```
