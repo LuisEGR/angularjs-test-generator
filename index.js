@@ -149,6 +149,7 @@ let writeFile = () => {
   let ver = cli.executeOnText(res);
   fw.write(ver.results[0].output);
   console.log("Jasmine test created on: '"+destFile+"'");
+  rl.close();
 }
 
 
