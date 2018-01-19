@@ -1,7 +1,7 @@
 {
   "name": "angularjs-test-generator",
-  "version": "1.0.0",
-  "description": "AngularJS test generator for Jasmine in ES6",
+  "version": "0.0.1",
+  "description": "AngularJS test generator for Jasmine and ES6",
   "main": "index.js",
   "scripts": {
     "test": "test"
