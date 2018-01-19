@@ -3,9 +3,7 @@
 
 This is a simple CLI application to facilitate the creation of Jasmine test for AngularJS
 
-[![npm version](https://badge.fury.io/js/angularjs-test-generator.svg)](https://badge.fury.io/js/angularjs-test-generator)
-
-[![Known Vulnerabilities](https://snyk.io/test/github/luisegr/angularjs-test-generator/badge.svg?targetFile=package.json)](https://snyk.io/test/github/luisegr/angularjs-test-generator?targetFile=package.json)
+[![npm version](https://badge.fury.io/js/angularjs-test-generator.svg)](https://badge.fury.io/js/angularjs-test-generator) [![Known Vulnerabilities](https://snyk.io/test/github/luisegr/angularjs-test-generator/badge.svg?targetFile=package.json)](https://snyk.io/test/github/luisegr/angularjs-test-generator?targetFile=package.json)
 
 ## Instalation
 
