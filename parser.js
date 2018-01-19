@@ -78,7 +78,6 @@ class ParserAJS{
   
   getBindings() {
     let componentData;
-    console.log("Getting bindings...");
     if (!this.hasFile('component.js')) {
       return [];
     } else {
