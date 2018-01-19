@@ -101,7 +101,7 @@ class ParserAJS{
     switch (tipo[0]) {
     case '<': return 'testData.'+bind; break;
     case '&': return '(data) => {}'; break;
-    case '@': return 'abc'; break;
+    case '@': return `'abc'`; break;
     }
     return `''`;
   };
@@ -112,7 +112,7 @@ class ParserAJS{
     switch (tipo[0]) {
     case '<': return bind + 'Test'; break;
     case '&': return bind + 'Test(data)'; break;
-    case '@': return bind + 'Test'; break;
+    case '@': return `{{${bind}Test}}`; break;
     }
     return `''`;
   };

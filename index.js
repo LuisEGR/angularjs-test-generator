@@ -54,9 +54,13 @@ Object.keys(_bindings).forEach((binding) => {
 });
 
 let specContent = [];
-if (parser.hasFile('fixtures.js')) {
-  specContent.push(`import * as testData from './fixtures.js';`);
+if (!parser.hasFile('fixtures.js')) {
+  let f_fixtures = fs.createWriteStream('fixtures.js');
+  Object.keys(_bindings).forEach((binding) => {
+    f_fixtures.write(`export const ${binding} = {};\n`);
+  });
 }
+specContent.push(`import * as testData from './fixtures.js';`);
 if (parser.hasFile('view.html')) {
   specContent.push(`import templateURL from './view.html';`);
   specContent.push(functionGetSync);
