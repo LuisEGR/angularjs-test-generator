@@ -2,7 +2,7 @@
 'use strict';
 // AngularJS Jasmine Test Generator
 // Author: Luis E. González R. (@LuisEGR)
-// Version: 0.0.1
+// Version: 0.0.2
 let fs = require('fs');
 // let process = require('process');
 let minimist = require('minimist');
@@ -114,7 +114,7 @@ specContent.push(``);
 for (let i = 0; i < _functionsCtrl.length; i++) {
   specContent.push(` // Función ${_functionsCtrl[i]}`);
   specContent.push(
-    ` describe('Al llamar la función ${_functionsCtrl[i]}()', () => {`);
+    ` describe('al llamar la función ${_functionsCtrl[i]}()', () => {`);
   specContent.push(` beforeAll(() => {
       //dostuff
     ctrl.${_functionsCtrl[i]}();
