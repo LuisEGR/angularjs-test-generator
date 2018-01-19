@@ -3,10 +3,10 @@
 // AngularJS Jasmine Test Generator
 // Author: Luis E. González R. (@LuisEGR)
 // Version: 0.0.3
-let fs = require('fs');
-// let process = require('process');
-let minimist = require('minimist');
-let CLIEngine = require('eslint').CLIEngine;
+const fs = require('fs');
+const readline = require('readline');
+const minimist = require('minimist');
+const CLIEngine = require('eslint').CLIEngine;
 let cli = new CLIEngine({
   envs: ['env'],
   fix: true,
@@ -128,17 +128,42 @@ for (let i = 0; i < _functionsCtrl.length; i++) {
 };
 specContent.push(`})`);
 
-console.log("Module: " + _module);
-console.log("Type: " + _type);
-console.log("Name: " + _name + "/" + _htmlTag);
-console.log("Bindings: " + Object.keys(_bindings).join(','));
-console.log("Functions: " + _functionsCtrl.join(','));
+console.log("\tModule: \t" + _module);
+console.log("\tType: \t\t" + _type);
+console.log("\tName: \t\t" + _name + "/" + _htmlTag);
+console.log("\tBindings: \t" + Object.keys(_bindings).join(','));
+console.log("\tFunctions: \t" + _functionsCtrl.join(','));
 
 let res = specContent.join('\n');
 // console.log('Spec:', res);
 
-let fw = fs.createWriteStream(destFile);
-let ver = cli.executeOnText(res);
-// console.log("output:",ver);
-fw.write(ver.results[0].output);
-console.log("Jasmine test created on: '"+destFile+"'");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+
+let fw = undefined;
+let replaceFile = false;
+if (!fs.existsSync(destFile)) {
+  writeFile();
+} else {
+  rl.question(`'${destFile}' already exists, would you like to replace it? Y/N `, (answer) => {
+    replaceFile = /[YySs]/.test(answer);
+    if(replaceFile){
+      console.log(`${destFile} replaced!`);
+      writeFile();
+    }else{
+      console.log('Run this command with -o option to set the output name');
+    }
+    rl.close();
+  });
+}
+
+let writeFile = () => {
+  fw = fs.createWriteStream(destFile);
+  let ver = cli.executeOnText(res);
+  fw.write(ver.results[0].output);
+  console.log("Jasmine test created on: '"+destFile+"'");
+}

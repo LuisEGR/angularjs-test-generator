@@ -32,7 +32,7 @@ cd myApp/components/my-component/
 gentest
 ```
 
-this will create the file ```component.spec.js```,  **if it already exists it will be replaced**.
+this will create the file ```component.spec.js```
 
 #### CLI Arguments
 
