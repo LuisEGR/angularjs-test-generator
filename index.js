@@ -73,7 +73,9 @@ specContent.push(`let element;`);
 specContent.push(`let ctrl;`);
 specContent.push(`let $scope;`);
 specContent.push(`let $compile;`);
-specContent.push(`let $templateCache;`);
+if (parser.hasFile('view.html')) {
+  specContent.push(`let $templateCache;`);
+}
 specContent.push(`let $httpBackend;`);
 specContent.push(``);
 specContent.push(`angular.mock.module.sharedInjector();`);
@@ -81,9 +83,11 @@ specContent.push(`beforeAll(angular.mock.module('${_module}'));`);
 specContent.push(`beforeAll( inject(($injector) => {`);
 specContent.push(`$scope = $injector.get('$rootScope').$new();`);
 specContent.push(`$compile = $injector.get('$compile');`);
-specContent.push(`$templateCache = $injector.get('$templateCache');`);
 specContent.push(`$httpBackend = $injector.get('$httpBackend');`);
-specContent.push(`$templateCache.put(templateURL, getSync(templateURL));`);
+if (parser.hasFile('view.html')) {
+  specContent.push(`$templateCache = $injector.get('$templateCache');`);
+  specContent.push(`$templateCache.put(templateURL, getSync(templateURL));`);
+}
 specContent.push(``);
 specContent.push(`// Ignorar peticiones a templates de componentes anidados`);
 specContent.push(`$httpBackend.when('GET', /\.html$/).respond(200, '');`);
@@ -96,8 +100,7 @@ Object.keys(_bindings).forEach((binding) => {
 
 specContent.push(``);
 specContent.push(`element = angular.element(\`<${_htmlTag} 
-${bindsAttrs}></${_htmlTag}>
-\`);`);
+${bindsAttrs}></${_htmlTag}>\`);`);
 specContent.push(``);
 specContent.push(`$compile(element)($scope);`);
 specContent.push(`$scope.$digest();`);
