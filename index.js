@@ -26,10 +26,10 @@ let destname = argv['o'] ||null;
 let _htmlTag = parser.getHTMLTag();
 let _name = parser.getName();
 let _type = parser.getType();
+let _restrict = parser.getRestrict();
 let _module = parser.getModuleName();
 let _bindings = parser.getBindings();
 let _functionsCtrl = parser.getFunctionsCtrl();
-
 let destFile = destname || _type + '.spec.js';
 // console.log(_name);
 // console.log(_type);
@@ -99,8 +99,13 @@ Object.keys(_bindings).forEach((binding) => {
 });
 
 specContent.push(``);
-specContent.push(`element = angular.element(\`<${_htmlTag} 
-${bindsAttrs}></${_htmlTag}>\`);`);
+if(_restrict == 'E'){
+  specContent.push(`element = angular.element(\`<${_htmlTag} 
+  ${bindsAttrs}></${_htmlTag}>\`);`);
+}else if(_restrict == 'A'){
+  specContent.push(`element = angular.element(\`<div 
+  ${_htmlTag} ${bindsAttrs}></div>\`);`);
+}
 specContent.push(``);
 specContent.push(`$compile(element)($scope);`);
 specContent.push(`$scope.$digest();`);
@@ -136,6 +141,7 @@ console.log("\tType: \t\t" + _type);
 console.log("\tName: \t\t" + _name + "/" + _htmlTag);
 console.log("\tBindings: \t" + Object.keys(_bindings).join(','));
 console.log("\tFunctions: \t" + _functionsCtrl.join(','));
+console.log("\tRestrict \t" + _restrict);
 
 let res = specContent.join('\n');
 // console.log('Spec:', res);
@@ -151,10 +157,7 @@ let replaceFile = false;
 
 let writeFile = () => {
   fw = fs.createWriteStream(destFile);
-  // let ver = cli.executeOnText(res);
-  // console.log("Results:", JSON.stringify(ver));
-  // fw.write(ver.results[0].output);
-  console.log(res);
+  // console.log(res);
   fw.write(res);
   console.log("Jasmine test created on: '"+destFile+"'");
   rl.close();

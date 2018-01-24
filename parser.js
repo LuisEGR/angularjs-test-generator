@@ -65,6 +65,7 @@ class ParserAJS{
       return 'MODULE_NAME_NOT_FOUND';
     } else {
       moduleData = fs.readFileSync('module.js', {encoding: 'utf-8'});
+      moduleData = moduleData.replace(/^[ ]*[*/].*/gm, '');
       fromPos = moduleData.indexOf(' .module(') + 10;
       toPos = fromPos;
       let actualChar = '';
@@ -77,21 +78,30 @@ class ParserAJS{
   };
   
   getBindings() {
-    let componentData;
-    if (!this.hasFile('component.js')) {
-      return [];
-    } else {
-      componentData = fs.readFileSync('component.js', {encoding: 'utf-8'});
-      let fromPos = componentData.search('bindings');
+    let fileData;
+    if (this.hasFile('component.js')) {
+      fileData = fs.readFileSync('component.js', {encoding: 'utf-8'});
+      fileData = fileData.replace(/^[ ]*[*/].*/gm, '');
+      
+      let fromPos = fileData.search('bindings');
       let toPos = fromPos;
       let actualChar = '';
       while (/[}]/.test(actualChar) == false) {
-        actualChar = componentData.charAt(toPos);
+        actualChar = fileData.charAt(toPos);
         toPos += 1;
       }
       let binds;
-      binds = eval(`binds = { ${componentData.slice(fromPos, toPos)} }`);
+      eval(`binds = { ${fileData.slice(fromPos, toPos)} }`);
       return binds.bindings || {};
+    }else if(this.hasFile('directive.js')){
+        fileData = fs.readFileSync('directive.js', {encoding: 'utf-8'});
+        fileData = fileData.replace(/^[ ]*[*/].*|[ ]/gm, '');
+        fileData = fileData.replace(/^[ ]*[*/].*|[ ]|\n/gm, '');
+        let scope = fileData.match(/scope:{.*?}/g)[0].substr(6);
+        eval('scope = ' + scope);
+        return scope || {};
+    }else{
+      return {};
     }
   };
   
@@ -123,6 +133,7 @@ class ParserAJS{
       return [];
     } else {
       controllerData = fs.readFileSync('controller.js', {encoding: 'utf-8'});
+      controllerData = controllerData.replace(/^[ ]*[*/].*/gm, '');
       let funcs = controllerData.match(/vm.[a-zA-Z$ ]{2,}[=(]\s*(\(|(fu)){1,}/g);
       if(!funcs || !funcs.length) return [];
       funcs = funcs.map((fun) => {
@@ -131,6 +142,21 @@ class ParserAJS{
       return funcs;
     }
   };
+
+  getRestrict() {
+    let directiveData;
+    let restrict = 'E';
+    if(this.hasFile('directive.js')) {
+      directiveData = fs.readFileSync('directive.js', {encoding: 'utf-8'});
+      directiveData = directiveData.replace(/^[ ]*[*/].*/gm, '');
+      restrict = directiveData.match(/^[ ]*restrict.*$/gm);
+      restrict = restrict.length ? restrict[0] : 'E';
+      restrict = restrict.match(/[`"'][AE][`"']/g)[0];
+      restrict = restrict.replace(/[`"']|\s/g,'');
+    }
+    return restrict;
+  }
+
 };
 
 

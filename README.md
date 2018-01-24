@@ -22,10 +22,15 @@ npm install -g angularjs-test-generator
 ## Use
 
 Simply go to the directory of your component, which must have these files:
-  * ./my-component/module.js
-  * ./my-component/component.js
-  * ./my-component/controller.js
-  * ./my-component/view.html
+  * ./module.js *
+  * ./controller.js *
+  * ./view.html
+
+and at least one of this:
+
+  * ./directive.js
+  * ./component.js
+
 
 ```shell
 cd myApp/components/my-component/
@@ -49,13 +54,18 @@ This script requires you to have your project with this configuration:
 - Webpack module builder
 - ES6 Project, with ES6 modules (babel-preset-env^)  
 - Karma test runner
-- ESLint and .eslint.json file
 ---
 
 ### TODO
 
-- [x] Components  
-- [ ] Directives  
+- [x] Components 
+  - [x] module name from `module.js`
+  - [x] htmlTag -> html-tag from `folder-name`
+  - [x] controller functions (starting with vm.) from `controller.js`
+  - [x] bindings ('<', '&', '@') from `component.js`
+  - [x] templateCache on `view.html`
+  - [x] testData on `fixtures.js`
+- [x] Directives -> Element, Attribute
 - [ ] Filters  
 - [ ] Services  
 
