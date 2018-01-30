@@ -99,7 +99,7 @@ Object.keys(_bindings).forEach((binding) => {
 });
 
 specContent.push(``);
-if(_restrict == 'E'){
+if(_restrict == 'E' || _restrict == 'AE'){
   specContent.push(`element = angular.element(\`<${_htmlTag} 
   ${bindsAttrs}></${_htmlTag}>\`);`);
 }else if(_restrict == 'A'){

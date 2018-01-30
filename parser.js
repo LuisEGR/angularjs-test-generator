@@ -94,12 +94,13 @@ class ParserAJS{
       eval(`binds = { ${fileData.slice(fromPos, toPos)} }`);
       return binds.bindings || {};
     }else if(this.hasFile('directive.js')){
-        fileData = fs.readFileSync('directive.js', {encoding: 'utf-8'});
-        fileData = fileData.replace(/^[ ]*[*/].*|[ ]/gm, '');
-        fileData = fileData.replace(/^[ ]*[*/].*|[ ]|\n/gm, '');
-        let scope = fileData.match(/scope:{.*?}/g)[0].substr(6);
-        eval('scope = ' + scope);
-        return scope || {};
+      fileData = fs.readFileSync('directive.js', {encoding: 'utf-8'});
+      fileData = fileData.replace(/^[ ]*[*/].*|[ ]/gm, '');
+      fileData = fileData.replace(/^[ ]*[*/].*|[ ]|\n/gm, '');
+      let scope = fileData.match(/scope:{.*?}/g);
+      scope = scope ? scope[0].substr(6) : '{}';
+      eval('scope = ' + scope);
+      return scope || {};
     }else{
       return {};
     }
@@ -107,8 +108,9 @@ class ParserAJS{
   
   getBindingScope(bindings, bind) {
     let tipo = bindings[bind];
-    tipo = tipo.match(/[<|@|&]/);
+    tipo = tipo.match(/[<@&=]/);
     switch (tipo[0]) {
+    case '=': return 'testData.'+bind; break;
     case '<': return 'testData.'+bind; break;
     case '&': return '(data) => {}'; break;
     case '@': return `'abc'`; break;
@@ -118,9 +120,10 @@ class ParserAJS{
   
   getBindingsHTML(bindings, bind) {
     let tipo = bindings[bind];
-    tipo = tipo.match(/[<|@|&]/);
+    tipo = tipo.match(/[<@&=]/);
     switch (tipo[0]) {
     case '<': return bind + 'Test'; break;
+    case '=': return bind + 'Test'; break;
     case '&': return bind + 'Test(data)'; break;
     case '@': return `{{${bind}Test}}`; break;
     }
@@ -150,6 +153,7 @@ class ParserAJS{
       directiveData = fs.readFileSync('directive.js', {encoding: 'utf-8'});
       directiveData = directiveData.replace(/^[ ]*[*/].*/gm, '');
       restrict = directiveData.match(/^[ ]*restrict.*$/gm);
+      if(!restrict) return 'AE';
       restrict = restrict.length ? restrict[0] : 'E';
       restrict = restrict.match(/[`"'][AE][`"']/g)[0];
       restrict = restrict.replace(/[`"']|\s/g,'');
